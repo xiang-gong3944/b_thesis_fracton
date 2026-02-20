@@ -1,4 +1,4 @@
-\documentclass[uplatex,11pt,dvipdfmx,a4paper]{jsreport}
+\documentclass[uplatex,11pt,dvipdfmx,a4paper]{jsbook}
 \usepackage{template}
 
 
@@ -13,11 +13,12 @@
 \maketitle
 
 \subfile{chapter/00_preface.tex}
-% \tableofcontents
-% \clearpage
-% \subfile{chapter/01_introduction.tex}
+\tableofcontents
+\clearpage
+\part{量子誤り訂正符号}
+\subfile{chapter/01_shor.tex}
 
-\nocite{*}
+% \nocite{*}
 \bibliographystyle{junsrt}
 \bibliography{references}
 
