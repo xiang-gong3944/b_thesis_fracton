@@ -4,6 +4,9 @@
     bottom=20truemm,
     inner=30truemm,
     outer=20truemm]{geometry}      % ページの余白を設定
+\makeatletter
+\setlength{\fullwidth}{\textwidth}
+\makeatother
 \usepackage[dvipdfmx]{graphicx}    % 画像の挿入（dvipdfmx用）
 \usepackage{cite}             % 参考文献の引用スタイルを改善
 \usepackage{hyperref, pxjahyper}   % ハイパーリンク対応（日本語もOK）
