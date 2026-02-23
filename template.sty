@@ -19,8 +19,8 @@
 \usepackage{physics}          % 物理向けコマンド（braket, dv, pdvなど）
 \usepackage{mathrsfs}         % 花文字フォント（物理の作用などで使用）
 \usepackage{amsthm}           % 定理・補題などの環境定義
+\usepackage{cancel}         % 数式中の取り消し線
 % \usepackage{tensor}         % 添字を上下に綺麗に配置（テンソル記法）
-% \usepackage{cancel}         % 数式中の取り消し線
 
 % 図表関連
 \usepackage[subrefformat=parens]{subcaption} % 図を(a)(b)形式で並べる
@@ -34,3 +34,79 @@
 
 % その他
 % \usepackage[version=4]{mhchem} % 化学式や反応式を簡単に入力
+
+% tcolorbox 周り
+\usepackage{tcolorbox}
+% tcolorbox: 皮(skins)とページまたぎ(breakable)だけ使う
+\tcbuselibrary{skins,breakable}
+% =========================
+% Thesis-friendly tcolorbox (NO theorem environments)
+% =========================
+\RequirePackage{xcolor} % 既にどこかで読んでいてもOK
+
+% ---- テーマ切替（色を一括管理）----
+\colorlet{TB@back}{white}
+\colorlet{TB@frame}{black!45}
+\colorlet{TB@titlebg}{black!10}
+
+\newcommand{\ThesisBoxThemeMono}{%
+  \colorlet{TB@back}{white}%
+  \colorlet{TB@frame}{black!45}%
+  \colorlet{TB@titlebg}{black!10}%
+}
+\newcommand{\ThesisBoxThemeBlue}{%
+  \colorlet{TB@back}{white}%
+  \colorlet{TB@frame}{blue!55!black}%
+  \colorlet{TB@titlebg}{blue!10}%
+}
+\newcommand{\ThesisBoxThemeSepia}{%
+  \colorlet{TB@back}{white}%
+  \colorlet{TB@frame}{brown!60!black}%
+  \colorlet{TB@titlebg}{brown!12}%
+}
+
+% デフォルトはセピア
+\AtBeginDocument{\ThesisBoxThemeSepia}
+
+% ---- 共通形状（論文っぽい控えめ設定）----
+\tcbset{
+  thesisbox/.style={
+    enhanced,
+    breakable,
+    colback=TB@back,
+    colframe=TB@frame,
+    coltitle=black,
+    fonttitle=\bfseries,
+    boxrule=0.5pt,
+    arc=1mm,
+    boxsep=1.2mm,
+    left=1.6mm,right=1.6mm,top=1.2mm,bottom=1.2mm,
+    toptitle=0.8mm,bottomtitle=0.6mm,
+    attach boxed title to top left={xshift=1.2mm,yshift*=-1mm},
+    boxed title style={
+      colback=TB@titlebg,
+      boxrule=0pt,
+      arc=0.8mm,
+      left=1.0mm,right=1.0mm,top=0.6mm,bottom=0.6mm,
+    },
+  },
+}
+
+% ---- 使い分け用の箱（全部「番号なし」）----
+\newtcolorbox{NoteBox}[2][]{thesisbox,title={#2},#1}
+
+% 左に細線アクセント（「要点」向け）
+\newtcolorbox{KeyBox}[2][]{%
+  thesisbox,
+  borderline west={2pt}{0pt}{TB@frame},
+  title={#2},
+  #1
+}
+
+% 注意・警告（背景ちょい濃い）
+\newtcolorbox{WarnBox}[2][]{%
+  thesisbox,
+  colback=TB@back!70,
+  title={#2},
+  #1
+}
