@@ -792,9 +792,9 @@ Z基底とX基底を行き来するゲートはHadamardゲートである。
 シミュレーションした結果を紹介する。
 
 これまで、反転エラーと位相エラーを訂正する符号をそれぞれ作ってきた。
-位相エラーから保護する符号によって量子ビット\(\ket{\psi}=\alpha\ket{0}+\beta\ket{1}=\alpha'\ket{+}+\beta'\ket{-}\)は
+位相エラーから保護する符号によって量子ビット\(\ket{\psi}=\alpha\ket{0}+\beta\ket{1}\)は
 \begin{equation}\begin{aligned}[b]
-    \ket{\psi} &\to \ket{\psi}_L = \alpha'\ket{+++}+\beta'\ket{---}
+    \ket{\psi} &\to \ket{\psi}_L = \alpha\ket{+++}+\beta\ket{---}
 \end{aligned}\end{equation}
 へと符号化された。
 ここで右辺にある\(\ket{0}\)や\(\ket{1}\)をさらに反転エラーを訂正する符号、つまり右辺の\(\ket{\pm}\)を
@@ -809,7 +809,7 @@ Z基底とX基底を行き来するゲートはHadamardゲートである。
 で符号化して、
 \begin{equation}\begin{aligned}[b]
     \ket{\psi} &\to \ket{\psi}_L
-    = \alpha'\ket{+}_l\ket{+}_l\ket{+}_l + \beta'\ket{-}_l\ket{-}_l\ket{-}_l
+    = \alpha\ket{+}_l\ket{+}_l\ket{+}_l + \beta\ket{-}_l\ket{-}_l\ket{-}_l
 \end{aligned}\end{equation}
 にすれば、
 各ビットの反転エラー・位相エラーの両方を訂正できる符号になる。
