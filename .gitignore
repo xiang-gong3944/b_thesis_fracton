@@ -9,3 +9,6 @@
 *.aux
 *.toc
 *.out
+
+# subfiles
+/chapter/out/*.pdf
