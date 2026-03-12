@@ -1,195 +1,65 @@
-# 卒論 LaTeX テンプレート
+# 双極子保存則で拘束された励起を持つ量子誤り訂正符号の物理
 
-これはsubfileを使うLaTeX テンプレートです。
+**Fractonic Excitations in Dipole-Conserving Hypergraph-Product Codes**
 
-このテンプレートは、以下のファイル配置となってます。
+2025年度 東京理科大学 理学部第一部応用物理学科 卒業論文
+著者: 西原 翔
 
-```markdown
+## PDF
+
+コンパイル済みの論文PDFは以下から閲覧できます。
+
+[out/master.pdf](out/master.pdf)
+
+## ディレクトリ構造
+
+```
 .
 ├── .gitignore         # gitで追跡しないファイルの登録
-├── .latexmkrc         # ビルド設定
-├── README.md          # この文章のこと
-├── LICENSE.md         # MIT LICENSEが入ってる
+├── .latexmkrc         # ビルド設定 (uplatex + upbibtex, 出力先: out/)
+├── readme.md          # この文章
+├── LICENSE.md         # MIT LICENSE
 ├── master.tex         # メインファイル (subfileの親)
 ├── template.sty       # 共通設定・パッケージ読み込み用
 ├── references.bib     # 参考文献
 │
-├── chapter/
-    ├── 00_preface.tex
-    ├── 01_introduction.tex
-    │
-    └── figures/
-        └── example_figure.png
+├── chapter/           # 各章のTeXファイル
+│   ├── 00_preface.tex
+│   ├── 01_shor.tex
+│   ├── 02_generalized_pauli.tex
+│   ├── 03_stabilizer_CSS.tex
+│   │
+│   └── figures/       # 図のファイル
+│       ├── chap1_*.png
+│       └── chap2_*.png
+│
+└── out/
+    └── master.pdf     # コンパイル済みPDF
 ```
 
-## このテンプレートの使い方
+## LaTeX文書の構造
 
-### リポジトリの作成
+`master.tex` を親ファイルとし、`\subfile{}` で各章を読み込む構成となっています。
 
-このリポジトリは「テンプレート」として設定されています。
-fork や clone ではなく、右上の[Use this template]ボタンをクリックして、自分の新しいリポジトリを作成してください。
-
-ボタンを押すとリポジトリの作成オプションが出てきます。
-必ず決めないといけないのは以下の2つです。
-
-- Repository name: 自分の論文の管理名。GitHubのurlの一部になります。（例: master-thesis-2025）
-- Configuration: Private(非公開)にするかPublic(公開)にするか決めます。(推奨は Private)
-
-これを決めて[Create repository]ボタンを押すとあなたのリポジトリが作成されます。
-
-リポジトリをPrivateにしておくのを推奨としたのは、
-意図しない研究成果の流出や、剽窃のリスクを防ぐためです。
-
-指導教員など他の人と相談したい際には、
-GitHubのリポジトリの Setting の Collaborators から、
-相談したい人の GitHub アカウントを招待すると安全な方法です。
-
-### リポジトリのクローン(PCへのダウンロード)
-
-自分のGitHubのアカウントにリポジトリができたので、
-そのリポジトリを作業するパソコンへ「クローン」します。
-
-VS Code と GitHub アカウントを連携させておくと簡単です。
-
-1. VS Code を開き、ウェルカムページ（またはコマンドパレット）から「リポジトリのクローン (Git Clone)」を選択します。
-2. コピーしておいた URL を貼り付けるか、GitHub からのリポジトリ一覧で、先ほど作成したリポジトリを選択します。
-3. PC 上の保存場所を尋ねられるので、適切なフォルダを指定します。
-
-### 論文情報の編集
-
-以下のようにプレースホルダーが `master.tex` に入っています。
-
-```LaTeX
-\title{タイトル} % ← ここに自分の論文タイトル
-\author{氏名} % ← ここに自分の氏名
-\date{2025年度 ●●大学 ○○学部■■学科 卒業論文} % ← ここを所属や年に合わせて修正
+```
+master.tex
+├── 序文                          (chapter/00_preface.tex)
+├── 目次
+│
+└── Part 1: 量子誤り訂正符号
+    ├── Chapter 1: Shor符号       (chapter/01_shor.tex)
+    ├── Chapter 2: 一般化パウリ演算子とqudit
+    │                             (chapter/02_generalized_pauli.tex)
+    └── Chapter 3: スタビライザー形式
+                                  (chapter/03_stabilizer_CSS.tex)
 ```
 
-ここを忘れずに変えておきましょう。
+## コンパイル環境
 
-### コンパイル環境
+`.latexmkrc` に以下の設定が記述されています。
 
-このテンプレートには、latexmk の設定ファイルとして `.latexmkrc` が同梱されています。
+- コンパイラ: uplatex
+- 文献処理: upbibtex
+- 出力先: `out/` フォルダ (`out/master.pdf` が生成されます)
 
-このファイルには、以下の設定が記述されています。
-
-- コンパイラとして uplatex を使用します。
-- 文献引用処理（BibTeX）には upbibtex を使用します。
-- 生成されるPDF (`master.pdf`) やログファイル (`.log`, `.aux` など) は、すべて `out/` フォルダに出力されます。
-
-VS Code の拡張機能
-[LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop)
-をインストールして利用する場合、この `.latexmkrc` ファイルが自動的に読み込まれます。
-
-そのため、build レシピでlatexmkを呼び出すことにしていれば、
-`.tex`ファイルを編集して保存するだけで自動的にコンパイルが実行され、
-`out/master.pdf` が生成・更新されます。
-
-### 新しい章を追加する方法
-
-結局これはTeXファイルなので、`main.tex`にそのまま章を追加して本文を書いても問題はありません。
-
-ただ、そうすると卒論のような長い文章を書くと、
-TeXファイルからpdfを作るコンパイルの時間がとても長くなります。
-
-`\subfile{}` を使う利点は `master.tex` から全体をコンパイルできるだけでなく、
-`01_introduction.tex` のような章ファイル単体を（VS Codeなどで）直接開いてコンパイルできることです。
-
-やり方としてもそんなに難しくなく、こんな感じでできます。
-
-1. `chapter/` フォルダ内に `03_new_chapter.tex` のようなファイルを作成します。
-2. `master.tex` を開き、`\subfile{}` コマンドが並んでいる箇所に、こんな感じで追記します。
-
-    ```latex
-    \subfile{chapter/01_introduction.tex}
-    \subfile{chapter/02_theory.tex}
-    \subfile{chapter/03_new_chapter.tex} % ← この行を追加
-    ```
-
-### 図を挿入する方法
-
-コンパイルが通れば図はどこにおいてもいいですが、
-`\subfile{}`によってファイルが分割されているため、
-コンパイラが図を見つけにくくエラーが出てしまうことがあります。
-
-分割したTeXファイルと同じ場所にあるとうまくいくと思われるので、
-こんな感じで`chapter/figures/` フォルダに画像ファイル（例: `example_figure.png`）を置いて読み込むといいです。
-
-```latex
-\begin{figure}
-    \centering
-    \includegraphics[width=0.8\linewidth]{figures/example_figure.png}
-    \caption{私の研究結果のグラフ}
-    \label{fig:my_graph}
-\end{figure}
-```
-
-### パッケージの追加
-
-プリアンブルは`template.sty`の中にあります。
-なので、なにかのパッケージを使いたいとなったときには、
-こんな感じのを追記すればよいです。
-
-```LaTeX
-\usepackage{hoge}
-```
-
-## バージョン管理 (Git の使い方)
-
-Git/GitHubはバージョン管理の道具です。
-これを使うことで
-
-- **データが吹き飛ばない**
-- 前の版へ戻したくなった時に戻すことができる
-- 他の人に共有しやすくなる
-
-などのとてもいいことがあります。
-卒論をきっかけに使ってみませんか?
-
-環境の導入にはこちらの記事が参考になるかと思います。
-[VS Codeで始めるGit(Hub)管理](https://zenn.dev/kd_gamegikenblg/articles/b220e23b0b7ef9)
-
-調べてみるといろんな運用方法がありますが、
-どれも細々としていて面倒です。
-
-自分がやってる簡単な運用としては以下の通りです。
-
-### 基本的な流れ
-
-1. **執筆する**
-    - `.tex` ファイルを編集し、保存します。
-2. **変更を記録する (コミット)**
-    - VS Code の左側にある「ソース管理」パネル（分岐アイコン）を開きます。
-    - 「変更」リストに表示されたファイルを確認します。
-    - 上部のテキストボックスに変更点をメモするメッセージ(コミットメッセージ)を入れます。
-    - コミットボタンを押します。これでローカル（自分の PC）に作業内容が記録されました。
-3. **記録を共有する (プッシュ)**
-    - コミット後、左下のステータスバーにある **[変更を同期]** ボタン（雲に矢印のアイコン）を押します。
-    - これで、ローカルの記録が GitHub（クラウド）にアップロード（プッシュ）されます。PC が壊れても GitHub から復元できる、安全なバックアップが作成されました。
-
-### コミットメッセージについて
-
-実際に使っていくと、コミットメッセージを考えるのが結構面倒というのに気づきます。
-適切なコミットメッセージはバージョン管理や共同作業するうえでとても大事です。
-
-そんなコミットメッセージは VS Code 上ではボタン1つでAIに書かせることができたりします。
-なのでうまいこと使ってやってください。
-
-コミットを分割するのも面倒となった場合には、
-『2025-12-09版』というぐらいでやると楽でよいです。
-
-### 共同作業や高度な使い方について
-
-この`README.md`では、VS Code 上での Git の詳しい操作（例：コンフリクトの解消など）は説明しません。
-
-もし複数人での同時編集や、より複雑なバージョン管理が必要になった場合は、Git の「ブランチ運用」や「Pull Request」について学ぶことをお勧めします。
-
-## ライセンス
-
-このテンプレートは [MIT License](LICENSE) のもとで公開されています。
-自由に改変・再配布が可能です。
-
-ライセンスを守るとなったときには
-リポジトリに含まれている LICENSE.md ファイルは削除しなければ十分です。
-それが著作権表示とライセンス表示の代わりとなります。
-参考: [MITライセンスの基本と再配布時に守るべきルール](https://qiita.com/molecular_pool/items/c49f8d5f4a2989ebb46f)
+VS Code の拡張機能 [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop) を使う場合、`.latexmkrc` が自動的に読み込まれ、保存時に自動コンパイルが実行されます。
