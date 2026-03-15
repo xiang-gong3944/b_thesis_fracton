@@ -58,7 +58,7 @@
 それらを満たす状態全体を符号空間とみなすのである。
 この立場をとれば、シンドローム測定の回路は
 既に与えられた量子状態を調べるための補助的な装置ではなく、
-むしろ符号空間そのものを定義する基本データとして理解される。
+むしろ符号空間そのものを定義するものとして理解される。
 
 \section{スタビライザー群と正規化群}
 ではシンドローム測定で測定する物理量をどのように与えるかを考えよう。
@@ -71,38 +71,191 @@ $\mathbb{F}_p$におけるHadamardテストでは、
 このような固有値を取るようなユニタリ演算子は一般化パウリ演算子の組み合わせで構成される。
 そのような演算子の集合を考える必要があるのとわかる。
 
-また、誤りのシンドロームを測定するための物理量は測定する順番によって結果が変わらないようにする必要がある。
-すなわち、測定する物理量は互いに可換でなければならない。
+さらに、複数のシンドロームを同時に測定したいのであれば、
+対応する検査演算子は測定する順番によって結果が変わらないようにしなければならない。
+すなわち、2つの検査演算子 $S_1,S_2$ に対して、
 \begin{equation}\begin{aligned}[b]
-    \mathcal{S}^{(1)}\mathcal{S}^{(2)}\ket{\psi} &= \mathcal{S}^{(2)}\mathcal{S}^{(1)}\ket{\psi}  &
-    \Rightarrow \quad \mathcal{S}^{(1)}\mathcal{S}^{(2)}\mathcal{S}^{-1 (2)} \mathcal{S}^{-1 (1)}&=1
+    S_1S_2\ket{\psi} &= S_2S_1\ket{\psi}  &
+    \Rightarrow \quad S_1S_2S_1^{-1}S_2^{-1}&=I
 \end{aligned}\end{equation}
-この条件より、測定する演算子の集合には演算が定義されていて、単位元や逆元を必要とする。
-なので、測定する演算子の候補の集合は群をなす必要があり、これは一般化パウリ群として定義される。
+が成り立っていてほしい。
+この式には演算子の積、単位元、逆元が自然に現れている。
+したがって、シンドローム測定に用いる演算子の集合を整理するには、
+これらを備えた代数的枠組みとして群を用いるのがよいであろう。
+そうした一般化パウリ演算子とその積のなす群が一般化パウリ群である。
 
 \begin{NoteBox}[title={一般化パウリ群}]{}
-    一般化パウリ群とは、$n$個のquditに作用する一般化パウリ演算子全体の集合である。
+    $\mathbf a=(a_1,\dots,a_n),\, \mathbf b=(b_1,\dots,b_n)\in\mathbb F_p^n$
+    に対して
+    \begin{equation}
+        \mathcal X^{\mathbf a}:=\mathcal X_1^{a_1}\cdots \mathcal X_n^{a_n},\qquad
+        \mathcal Z^{\mathbf b}:=\mathcal Z_1^{b_1}\cdots \mathcal Z_n^{b_n}
+    \end{equation}
+    と定める。
+    一般化パウリ群$\mathcal{P}_p^n$とは、$n$ 個の qudit に作用する一般化パウリ演算子全体のなす群で、
+    この群の元は
     \begin{equation}\begin{aligned}[b]
-        \mathcal{P}_n = \{ \omega^k \mathcal{X}^{\mathbf{a}} \mathcal{Z}^{\mathbf{b}} \mid k \in \mathbb{Z}_p, \mathbf{a},\mathbf{b} \in \mathbb{F}_p^n \}
+        \mathcal{P}_p^n=
+        \qty{
+            \omega^k \mathcal{X}^{\mathbf{a}}\mathcal{Z}^{\mathbf{b}}
+            \mid k\in \mathbb{Z}_p,  \mathbf{a},\mathbf{b}\in \mathbb{F}_p^n }
     \end{aligned}\end{equation}
+    と書け、積は
+    \begin{equation}\begin{aligned}[b]
+        (\omega^{k_1} \mathcal{X}^{\mathbf{a}_1}\mathcal{Z}^{\mathbf{b}_1})\cdot
+        (\omega^{k_2} \mathcal{X}^{\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_2})
+        &=
+        \omega^{k_1+k_2+\mathbf{b}_1\cdot\mathbf{a}_2}
+        \mathcal{X}^{\mathbf{a}_1+\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_1+\mathbf{b}_2}
+    \end{aligned}\end{equation}
+    のように定まる。
 \end{NoteBox}
 
-そのうち、測定する演算子の集合は互いに可換でなければならないので、可換な部分群を考える必要がある。
+このうち、シンドローム測定に用いる検査演算子は、
+測定する順番によって結果が変わらないように、互いに可換でなければならない。
+したがって、一般化パウリ群の中でも可換な部分群が検査演算子の集合となる。
+
+検査演算子の性質として他にも重要な要請がある。
+符号語となる状態$\ket{\psi}_L$に対しては各検査演算子がいつも決まった固有値を与えるようにしたい。
+すなわち、ある検査演算子 $S$ に対して
+\begin{equation}
+   S\ket{\psi}_L=\omega^k\ket{\psi}_L
+\end{equation}
+となるとする。
+ここで固有値 $\omega^k$ 自体は一般には $1$ である必要はない。
+しかし、$\omega^{-k}S$ もまた一般化パウリ演算子であるから、
+検査演算子を位相倍だけ取り直せば
+\begin{equation}
+    (\omega^{-k}S)\ket{\psi}_L=(+1)\ket{\psi}_L
+\end{equation}
+と書くことができる。
+したがって、各検査演算子の固有値は符号状態に対して $+1$ であるとする。
+
+また、この要請のもとでは検査演算子の集合の中に非自明な位相倍の単位演算子 $\omega^k I$ ($k\neq 0$) を含めることはできない。
+なぜなら、
+\begin{equation}
+    \omega^k I\ket{\psi}_L=\ket{\psi}_L
+\end{equation}
+を満たす状態 $\ket{\psi}_L$ は$\ket{\psi}_L=0$であり計算に使う状態としては不適当だからである。
+したがって、符号空間を非自明に保つためには、$\omega^kI (k\neq 0)$を除かなければならない。
+
+以上の要請をまとめると、シンドローム測定に用いる検査演算子として自然なのは、
+一般化パウリ群の中で互いに可換であり、かつ非自明な位相倍の単位演算子を含まない部分群である。
+このような部分群をスタビライザー群と呼び、
+いままでシンドローム測定で測定されてきた検査演算子のことをスタビライザー演算子と呼ぶ。
 \begin{NoteBox}[title={スタビライザー群}]{}
-    スタビライザー群とは次の2つの条件を満たす一般化パウリ群$\mathcal{P}_n$の部分群である。
+スタビライザー群とは、次の2つの条件を満たす一般化パウリ群 $\mathcal{P}_{p}^n$ の部分群 $\mathcal{S}$ のことである。
     \begin{itemize}
-        \item $\mathcal{S} \subset \mathcal{P}_n$は可換な部分群である。
-        \item $\omega I \notin \mathcal{S}$。
+        \item $\mathcal{S}\subset \mathcal{P}_{p}^n$ は可換な部分群である。
+        \item $\omega^k I \notin \mathcal{S}$ for all $k\neq 0$.
     \end{itemize}
 \end{NoteBox}
+このスタビライザー群の定義から、具体的にどのような演算子がスタビライザー群の元になりうるかを考えてみよう。
+スタビライザー群の元は一般化パウリ群の元であるから、ある $k\in\mathbb{F}_p$ と $\mathbf{a},\mathbf{b}\in\mathbb{F}_p^n$ に対して
+\begin{equation}
+    S=\omega^k \mathcal{X}^{\mathbf{a}}\mathcal{Z}^{\mathbf{b}}
+\end{equation}
+の形で書ける。
+スタビライザー群の定義から、スタビライザー群の元は互いに可換でなければならない。
+すなわち、スタビライザー群の元 $S_1=\omega^{k_1} \mathcal{X}^{\mathbf{a}_1}\mathcal{Z}^{\mathbf{b}_1}$ と
+$S_2=\omega^{k_2} \mathcal{X}^{\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_2}$ に対して以下が成り立つ。
+\begin{equation}\begin{aligned}[b]
+    0&=\qty(\omega^{k_1} \mathcal{X}^{\mathbf{a}_1}\mathcal{Z}^{\mathbf{b}_1})\cdot
+    \qty(\omega^{k_2} \mathcal{X}^{\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_2})
+    -\qty(\omega^{k_2} \mathcal{X}^{\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_2})\cdot
+    \qty(\omega^{k_1} \mathcal{X}^{\mathbf{a}_1}\mathcal{Z}^{\mathbf{b}_1})\\
+    &=
+    \omega^{k_1+k_2+\mathbf{b}_1\cdot\mathbf{a}_2}
+    \mathcal{X}^{\mathbf{a}_1+\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_1+\mathbf{b}_2}
+    -
+    \omega^{k_1+k_2+\mathbf{b}_2\cdot\mathbf{a}_1}
+    \mathcal{X}^{\mathbf{a}_1+\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_1+\mathbf{b}_2}\\
+    &=\qty(\omega^{\mathbf{b}_1\cdot\mathbf{a}_2-\mathbf{b}_2\cdot\mathbf{a}_1}-1)
+    \omega^{k_1+k_2+\mathbf{b}_2\cdot\mathbf{a}_1}
+    \mathcal{X}^{\mathbf{a}_1+\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_1+\mathbf{b}_2}.
+\end{aligned}\end{equation}
+この式が成り立つためには、
+\begin{equation}
+    \mathbf{b}_1\cdot\mathbf{a}_2-\mathbf{b}_2\cdot\mathbf{a}_1=0
+\end{equation}
+でなければならない。
+これをシンプレクティック条件と言い、スタビライザー群の元同士が可換である条件である。
+さらに、スタビライザー群の定義から、$\omega^k I$ ($k\neq 0$) をスタビライザー群の元として含めることはできない。
+したがって、スタビライザー群を生成する一般化パウリ演算子
+\begin{equation}
+    S_i=\omega^{k_i}\mathcal X^{\mathbf a_i}\mathcal Z^{\mathbf b_i}
+\end{equation}
+のラベル $(\mathbf a_i,\mathbf b_i)$ は、
+互いにこのシンプレクティック形式に関して直交していなければならない。
 
-スタビライザー群$\mathcal{S}$を定めると、$\mathcal{S}$の共通固有空間が符号空間となる。
+% CSS型のスタビライザーだと\omega^k がないから、スタビライザーは S_{pi}=X^{a_i} や S_{si}=Z^{b_i} の形で書ける。
+
+また、スタビライザー群の各元が固有値 $+1$ を与える状態全体を符号空間と考えることができる。
+この符号空間のことをスタビライザー符号と呼ぶ。
 \begin{NoteBox}[title={スタビライザー符号}]{}
-    スタビライザー符号とは、スタビライザー群$\mathcal{S}$の共通固有空間を符号空間とする量子誤り訂正符号である。
-    \begin{equation}\begin{aligned}[b]
-        \mathcal{C} = \{ \ket{\psi} \in (\mathbb{C}^p)^{\otimes n} \mid S\ket{\psi} = \ket{\psi}, \forall S \in \mathcal{S} \}
-    \end{aligned}\end{equation}
+    $\mathcal{S}$ の全ての元に対して固有値 $+1$ をもつ状態全体
+    \begin{equation}
+        \mathcal{C}
+        =\qty{
+            \ket{\psi}\in (\mathbb{C}^p)^{\otimes n}
+            \mid S\ket{\psi}=\ket{\psi},\ \forall S\in\mathcal{S}}
+    \end{equation}
+    をスタビライザー符号の符号空間という。
 \end{NoteBox}
+% ただし、スタビライザー群の全ての元を逐一並べる必要はない。
+% 群である以上、ある有限個の元から他の元を積によって生成できるならば、
+% その生成元だけを与えれば $\mathcal{S}$ 全体が定まる。
+% 特に、独立な生成元を
+% \begin{equation}
+%     \mathcal{S}=\langle S_1,S_2,\dots,S_r\rangle
+% \end{equation}
+% と書けば、符号空間は
+% \begin{equation}
+%     S_i\ket{\psi}=\ket{\psi}\qquad (i=1,\dots,r)
+% \end{equation}
+% をすべて満たす状態全体として記述できる。
+% したがって、実際のシンドローム測定においても、
+% 群の全ての元を測定する代わりに、生成元に対応する検査演算子だけを測定すれば十分である。
+
+% 次に、このようにして定まった符号空間の中でどのような演算子が許されるかを考えよう。
+% ある演算子 $U$ が符号空間を保つとは、
+% 任意の $\ket{\psi}\in\mathcal{C}$ に対して $U\ket{\psi}\in\mathcal{C}$ が成り立つことを意味する。
+% 特に一般化パウリ群の元 $P\in\mathcal{P}_{n,p}$ が符号空間を保つためには、
+% $\ket{\psi}\in\mathcal{C}$ に対して
+% \begin{equation}
+%     S(P\ket{\psi}) = P\ket{\psi}
+%     \qquad (\forall S\in\mathcal{S})
+% \end{equation}
+% が成り立たなければならない。
+% これは
+% \begin{equation}
+%     P^{-1}SP\ket{\psi}=\ket{\psi}
+%     \qquad (\forall S\in\mathcal{S})
+% \end{equation}
+% と書き換えられるので、
+% $P^{-1}SP\in\mathcal{S}$ が成り立つこと、すなわち $P$ が $\mathcal{S}$ を共役で保つことが必要になる。
+% この条件を満たす演算子全体は群をなし、$\mathcal{S}$ の正規化群と呼ばれる。
+
+% \begin{NoteBox}[title={正規化群}]{}
+%     スタビライザー群 $\mathcal{S}\subset\mathcal{P}_{n,p}$ の正規化群とは、
+%     \begin{equation}
+%         N(\mathcal{S})
+%         :=
+%         \left\{
+%             P\in\mathcal{P}_{n,p}
+%             \;\middle|\;
+%             P^{-1}SP\in\mathcal{S},\ \forall S\in\mathcal{S}
+%         \right\}
+%     \end{equation}
+%     で定まる部分群である。
+% \end{NoteBox}
+
+% $\mathcal{S}$ 自身の元は符号空間上では全て恒等的に作用するので、
+% 符号空間の内部で非自明に作用する論理演算子は、
+% 正規化群 $N(\mathcal{S})$ の元のうち $\mathcal{S}$ に属さないものとして現れる。
+% すなわち、$\mathcal{S}$ は符号空間を定義する検査演算子の群であり、
+% $N(\mathcal{S})$ はその符号空間を保つ演算子の群である。
+% この区別によって、シンドローム測定と論理演算子の役割が明確に分かれる。
 
 
 \end{document}
