@@ -60,7 +60,7 @@
 既に与えられた量子状態を調べるための補助的な装置ではなく、
 むしろ符号空間そのものを定義するものとして理解される。
 
-\section{スタビライザー群と正規化群}
+\section{スタビライザー群と符号空間}
 ではシンドローム測定で測定する物理量をどのように与えるかを考えよう。
 $\mathbb{F}_p$におけるHadamardテストでは、
 ユニタリ演算子の固有値が$\omega^k = \exp(\frac{2\pi i}{p}k)$であれば、
@@ -79,8 +79,8 @@ $\mathbb{F}_p$におけるHadamardテストでは、
     \Rightarrow \quad S_1S_2S_1^{-1}S_2^{-1}&=I
 \end{aligned}\end{equation}
 が成り立っていてほしい。
-この式には演算子の積、単位元、逆元が自然に現れている。
-したがって、シンドローム測定に用いる演算子の集合を整理するには、
+この式には演算子の積、単位元、逆元が現れており、
+シンドローム測定に用いる演算子の集合を整理するには、
 これらを備えた代数的枠組みとして群を用いるのがよいであろう。
 そうした一般化パウリ演算子とその積のなす群が一般化パウリ群である。
 
@@ -139,7 +139,7 @@ $\mathbb{F}_p$におけるHadamardテストでは、
 を満たす状態 $\ket{\psi}_L$ は$\ket{\psi}_L=0$であり計算に使う状態としては不適当だからである。
 したがって、符号空間を非自明に保つためには、$\omega^kI (k\neq 0)$を除かなければならない。
 
-以上の要請をまとめると、シンドローム測定に用いる検査演算子として自然なのは、
+以上の要請をまとめると、シンドローム測定に用いる検査演算子としては、
 一般化パウリ群の中で互いに可換であり、かつ非自明な位相倍の単位演算子を含まない部分群である。
 このような部分群をスタビライザー群と呼び、
 いままでシンドローム測定で測定されてきた検査演算子のことをスタビライザー演算子と呼ぶ。
@@ -147,11 +147,11 @@ $\mathbb{F}_p$におけるHadamardテストでは、
 スタビライザー群とは、次の2つの条件を満たす一般化パウリ群 $\mathcal{P}_{p}^n$ の部分群 $\mathcal{S}$ のことである。
     \begin{itemize}
         \item $\mathcal{S}\subset \mathcal{P}_{p}^n$ は可換な部分群である。
-        \item $\omega^k I \notin \mathcal{S}$ for all $k\neq 0$.
+        \item 任意の $k\neq 0$ に対して $\omega^k I \notin \mathcal{S}$.
     \end{itemize}
 \end{NoteBox}
 このスタビライザー群の定義から、具体的にどのような演算子がスタビライザー群の元になりうるかを考えてみよう。
-スタビライザー群の元は一般化パウリ群の元であるから、ある $k\in\mathbb{F}_p$ と $\mathbf{a},\mathbf{b}\in\mathbb{F}_p^n$ に対して
+スタビライザー群の元は一般化パウリ群の元であるから、ある $k\in\mathbb{Z}_p$ と $\mathbf{a},\mathbf{b}\in\mathbb{F}_p^n$ に対して
 \begin{equation}
     S=\omega^k \mathcal{X}^{\mathbf{a}}\mathcal{Z}^{\mathbf{b}}
 \end{equation}
@@ -186,9 +186,32 @@ $S_2=\omega^{k_2} \mathcal{X}^{\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_2}$ に対�
     S_i=\omega^{k_i}\mathcal X^{\mathbf a_i}\mathcal Z^{\mathbf b_i}
 \end{equation}
 のラベル $(\mathbf a_i,\mathbf b_i)$ は、
-互いにこのシンプレクティック形式に関して直交していなければならない。
+互いにこのシンプレクティック条件を満たさなければならない。
 
-% CSS型のスタビライザーだと\omega^k がないから、スタビライザーは S_{pi}=X^{a_i} や S_{si}=Z^{b_i} の形で書ける。
+CSS 符号もスタビライザー符号の一種であることを確認してみよう。
+CSS 符号の検査行列は $H_s$ と $H_p$ であるから、
+CSS 符号のスタビライザー演算子は、シフトエラーに対応するものと位相エラーに対応するものへと分かれる。
+それぞれ各検査行列の行を $\mathbf{b}_i=H_s[i,:]$ および $\mathbf{a}_i=H_p[i,:]$ とおくと、
+スタビライザー演算子は
+\begin{equation}\begin{aligned}[b]
+    S_{si} &= \mathcal{Z}^{\mathbf b_i} = \prod_m \mathcal{Z}_m^{H_s[i,m]} &
+    S_{pi} &= \mathcal{X}^{\mathbf a_i} = \prod_m \mathcal{X}_m^{H_p[i,m]}
+\end{aligned}\end{equation}
+の形で書ける。
+このとき、シンプレクティック条件は $H_sH_p^\mathsf{T}=0$ と同値である。
+というのも、CSS 型ではシフトエラーに対応する演算子に対しては $\mathbf{a}_{si}=0$,
+位相エラーに対応する演算子に対しては $\mathbf{b}_{pj}=0$ であるから、
+シンプレクティック条件は
+\begin{equation}\begin{aligned}[b]
+    0&=\mathbf{b}_{si}\cdot\mathbf{a}_{pj}-\mathbf{b}_{pj}\cdot\mathbf{a}_{si}
+    =-H_s[i,:]\cdot H_p[j,:]^\mathsf{T}
+\end{aligned}\end{equation}
+と書けるからである。
+また、このようなCSS型のスタビライザーでは$\mathbf{a}_{si}=\mathbf{b}_{pj}=0$であるから、
+スタビライザーは $S_{pi}=\omega^{k_i}\mathcal{X}^{\mathbf a_i}$ や $S_{si}=\omega^{k_i}\mathcal{Z}^{\mathbf b_i}$ の形で書ける。
+さらに前に述べたように、スタビライザー演算子は位相倍だけ取り直して符号空間上で固有値が $+1$ になるように選んでよい。
+したがって、CSS型のスタビライザー演算子は代表元の取り方として
+$S_{pi}=\mathcal{X}^{\mathbf a_i}$ や $S_{si}=\mathcal{Z}^{\mathbf b_i}$ の形にしてよい。
 
 また、スタビライザー群の各元が固有値 $+1$ を与える状態全体を符号空間と考えることができる。
 この符号空間のことをスタビライザー符号と呼ぶ。
@@ -202,60 +225,433 @@ $S_2=\omega^{k_2} \mathcal{X}^{\mathbf{a}_2}\mathcal{Z}^{\mathbf{b}_2}$ に対�
     \end{equation}
     をスタビライザー符号の符号空間という。
 \end{NoteBox}
-% ただし、スタビライザー群の全ての元を逐一並べる必要はない。
-% 群である以上、ある有限個の元から他の元を積によって生成できるならば、
-% その生成元だけを与えれば $\mathcal{S}$ 全体が定まる。
-% 特に、独立な生成元を
-% \begin{equation}
-%     \mathcal{S}=\langle S_1,S_2,\dots,S_r\rangle
-% \end{equation}
-% と書けば、符号空間は
-% \begin{equation}
-%     S_i\ket{\psi}=\ket{\psi}\qquad (i=1,\dots,r)
-% \end{equation}
-% をすべて満たす状態全体として記述できる。
-% したがって、実際のシンドローム測定においても、
-% 群の全ての元を測定する代わりに、生成元に対応する検査演算子だけを測定すれば十分である。
 
-% 次に、このようにして定まった符号空間の中でどのような演算子が許されるかを考えよう。
-% ある演算子 $U$ が符号空間を保つとは、
-% 任意の $\ket{\psi}\in\mathcal{C}$ に対して $U\ket{\psi}\in\mathcal{C}$ が成り立つことを意味する。
-% 特に一般化パウリ群の元 $P\in\mathcal{P}_{n,p}$ が符号空間を保つためには、
-% $\ket{\psi}\in\mathcal{C}$ に対して
-% \begin{equation}
-%     S(P\ket{\psi}) = P\ket{\psi}
-%     \qquad (\forall S\in\mathcal{S})
-% \end{equation}
-% が成り立たなければならない。
-% これは
-% \begin{equation}
-%     P^{-1}SP\ket{\psi}=\ket{\psi}
-%     \qquad (\forall S\in\mathcal{S})
-% \end{equation}
-% と書き換えられるので、
-% $P^{-1}SP\in\mathcal{S}$ が成り立つこと、すなわち $P$ が $\mathcal{S}$ を共役で保つことが必要になる。
-% この条件を満たす演算子全体は群をなし、$\mathcal{S}$ の正規化群と呼ばれる。
+この定義をShor符号で確認してみよう。
+前章で見た qudit 版 Shor符号の論理状態は
+\begin{equation}
+    \ket{j}_L = \ket{\tilde{j}}_l \ket{\tilde{j}}_l \ket{\tilde{j}}_l
+\end{equation}
+であり、各ブロックの内部ではシフトエラーを検出するために
+\begin{equation}
+    \mathcal{Z}_1\mathcal{Z}_2^\dagger,\ \mathcal{Z}_2\mathcal{Z}_3^\dagger,\
+    \mathcal{Z}_4\mathcal{Z}_5^\dagger,\ \mathcal{Z}_5\mathcal{Z}_6^\dagger,\
+    \mathcal{Z}_7\mathcal{Z}_8^\dagger,\ \mathcal{Z}_8\mathcal{Z}_9^\dagger
+\end{equation}
+を測定し、ブロック間では位相エラーを検出するために
+\begin{equation}
+    \mathcal{X}_1\mathcal{X}_2\mathcal{X}_3
+    \mathcal{X}_4^\dagger\mathcal{X}_5^\dagger\mathcal{X}_6^\dagger,\qquad
+    \mathcal{X}_4\mathcal{X}_5\mathcal{X}_6
+    \mathcal{X}_7^\dagger\mathcal{X}_8^\dagger\mathcal{X}_9^\dagger
+\end{equation}
+を測定していた。
+これらはいずれも論理状態に対して固有値 $+1$ を与える。
+例えば、
+\begin{equation}\begin{aligned}[b]
+    (\mathcal{Z}_1\mathcal{Z}_2^\dagger)\ket{j}_L &= \ket{j}_L, &
+    (\mathcal{Z}_2\mathcal{Z}_3^\dagger)\ket{j}_L &= \ket{j}_L, \\
+    (\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3
+    \mathcal{X}_4^\dagger\mathcal{X}_5^\dagger\mathcal{X}_6^\dagger)\ket{j}_L &= \ket{j}_L
+\end{aligned}\end{equation}
+となる。
+したがって、Shor符号の符号空間はこれらの演算子すべての固有値 $+1$ の共通固有空間として与えられる。
 
-% \begin{NoteBox}[title={正規化群}]{}
-%     スタビライザー群 $\mathcal{S}\subset\mathcal{P}_{n,p}$ の正規化群とは、
-%     \begin{equation}
-%         N(\mathcal{S})
-%         :=
-%         \left\{
-%             P\in\mathcal{P}_{n,p}
-%             \;\middle|\;
-%             P^{-1}SP\in\mathcal{S},\ \forall S\in\mathcal{S}
-%         \right\}
-%     \end{equation}
-%     で定まる部分群である。
-% \end{NoteBox}
+ここで重要なのは、スタビライザー群とはこれら8個の演算子そのものではなく、
+それらの積も含めた群全体であるという点である。
+例えば
+\begin{equation}
+    (\mathcal{Z}_1\mathcal{Z}_2^\dagger)(\mathcal{Z}_2\mathcal{Z}_3^\dagger)
+    =\mathcal{Z}_1\mathcal{Z}_3^\dagger
+\end{equation}
+もスタビライザー群の元であり、やはり符号空間上では固有値 $+1$ を与える。
+これは古典線形符号において、符号空間 $\ker H$ を定めるのに検査行列の全ての行が必要なわけではなく、
+独立な行だけを取れば十分であったことに対応している。
+例えば、3ビット繰り返し符号 $0\to 000,\ 1\to 111$ では、
+3つのビットを全て比較する検査条件として
+\begin{equation}
+    H=
+    \begin{pmatrix}
+        1 & -1 & 0\\
+        0 & 1 & -1\\
+        1 & 0 & -1
+    \end{pmatrix}
+\end{equation}
+を考えることもできるが、3行目は前2行の和で表されるため冗長であり、
+$\ker H$ を定めるには独立な2行だけで十分である。
+スタビライザー群でも同様に、符号空間を定めるには独立な検査条件だけを与えれば十分である。
+一方で、スタビライザー群そのものは、それらの検査演算子の積で得られる元も含めた可換部分群として定義される。
+したがって、積で得られる元は新しい独立な検査条件を加えているのではなく、
+もとの検査条件から従うものを群として閉じた形でまとめたものとみなせる。
 
-% $\mathcal{S}$ 自身の元は符号空間上では全て恒等的に作用するので、
-% 符号空間の内部で非自明に作用する論理演算子は、
-% 正規化群 $N(\mathcal{S})$ の元のうち $\mathcal{S}$ に属さないものとして現れる。
-% すなわち、$\mathcal{S}$ は符号空間を定義する検査演算子の群であり、
-% $N(\mathcal{S})$ はその符号空間を保つ演算子の群である。
-% この区別によって、シンドローム測定と論理演算子の役割が明確に分かれる。
+このことは、スタビライザー群を記述するのに群の全ての元を逐一並べる必要はなく、
+いくつかの基本的な演算子を指定すれば十分であることを意味している。
+実際、それらの演算子から積を作っていくことで、スタビライザー群の全ての元を得ることができる。
+このように群全体を作るもとになる演算子を生成元と呼ぶ。
+
+独立な生成元を $S_1,S_2,\dots,S_r$ とすると、
+それらから作られるスタビライザー群は
+\begin{equation}
+    \mathcal{S}=\langle S_1,S_2,\dots,S_r\rangle
+\end{equation}
+と書かれる。
+ここで $\langle S_1,S_2,\dots,S_r\rangle$ は、
+$S_1,S_2,\dots,S_r$ の積によって得られる全ての元からなる群を表している。
+このとき、符号空間は
+\begin{equation}
+    S_i\ket{\psi}=\ket{\psi}\qquad (i=1,\dots,r)
+\end{equation}
+を全て満たす状態全体として記述できる。
+したがって、実際のシンドローム測定においても、
+群の全ての元を測定する代わりに、生成元に対応する検査演算子だけを測定すれば十分である。
+
+
+\section{論理演算子}
+ここまでで、スタビライザー群を与えることによって符号空間そのものが定まることを見た。
+しかし、量子誤り訂正符号として情報を保持するためには、
+どの状態が符号空間に属するかが分かるだけでは十分でない。
+前章で扱った qudit 版 Shor符号では、符号化された状態を $\ket{j}_L$ と書いていた。
+ところが、スタビライザー群を与えただけでは、
+符号空間の中でこのラベル $j$ をどのように区別するのかはまだ見えていない。
+そこで次には、符号空間を保ちながら、
+論理状態 $\ket{j}_L$ に応じた位相を与えたり、
+別の論理状態 $\ket{j'}_L$ へ移したりする演算子を考えたい。
+このような演算子を論理演算子と呼ぶ。
+
+このことを qudit 版 Shor符号で具体的に見てみよう。
+前章で導入した論理状態は
+\begin{equation}\begin{aligned}[b]
+    \ket{j}_L &= \ket{\tilde{j}}_l \ket{\tilde{j}}_l \ket{\tilde{j}}_l &
+    \ket{\tilde{j}}_l &= \frac{1}{\sqrt{p}}\sum_{k=0}^{p-1}\omega^{-jk}\ket{kkk}
+\end{aligned}\end{equation}
+であった。
+物理的な一般化パウリ演算子 $\mathcal{X}$ は状態のラベルを1つシフトする演算子であり、
+$\mathcal{Z}$ は状態のラベルに応じた位相を与える演算子である。
+したがって、論理演算子についても
+\begin{equation}
+    \overline{\mathcal{X}}\ket{j}_L=\ket{j+1}_L,\qquad
+    \overline{\mathcal{Z}}\ket{j}_L=\omega^j\ket{j}_L
+\end{equation}
+を満たしていてほしい。
+ただし、ここで用いている論理状態は $\ket{\tilde{j}}$ 基底で書かれているため、
+物理的な $\mathcal{X}$ と $\mathcal{Z}$ の役割が見かけ上入れ替わることに注意が必要である。
+この論理状態のラベル $j$ を読み出す演算子として、
+\begin{equation}
+    \overline{\mathcal{Z}} := \mathcal{X}_1\mathcal{X}_2\mathcal{X}_3
+\end{equation}
+を考える。
+実際、
+\begin{equation}\begin{aligned}[b]
+    \overline{\mathcal{Z}}\ket{j}_L
+    = (\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3)
+    \qty(\ket{\tilde{j}}_l \ket{\tilde{j}}_l \ket{\tilde{j}}_l)
+    = \qty(\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3\ket{\tilde{j}}_l)
+    \ket{\tilde{j}}_l \ket{\tilde{j}}_l
+    = \omega^{j}\ket{j}_L
+\end{aligned}\end{equation}
+となる。
+したがって、$\overline{\mathcal{Z}}$ は論理状態 $\ket{j}_L$ のラベル $j$ に応じた位相を与える演算子として働く。
+
+一方、論理状態のラベルを1つ進める演算子として
+\begin{equation}
+    \overline{\mathcal{X}} := \mathcal{Z}_1^\dagger \mathcal{Z}_4^\dagger \mathcal{Z}_7^\dagger
+\end{equation}
+を考える。
+これは、各ブロックに対して同じだけラベルをずらしながら
+$\ket{\tilde{j}}_l\ket{\tilde{j}}_l\ket{\tilde{j}}_l$ という形を保つような最も単純な候補である。
+$\mathcal{Z}^\dagger$ は $\ket{\tilde{j}}_l$に作用させると
+\begin{equation}\begin{aligned}[b]
+    \mathcal{Z}_1^\dagger\ket{\tilde{j}}_l
+    = \frac{1}{\sqrt{p}}\sum_{k=0}^{p-1}\omega^{-jk}\mathcal{Z}_1^\dagger\ket{kkk}_{123}
+    = \frac{1}{\sqrt{p}}\sum_{k=0}^{p-1}\omega^{-(j+1)k}\ket{kkk}_{123}
+    = \ket{\widetilde{j+1}}_l
+\end{aligned}\end{equation}
+となるので、
+\begin{equation}\begin{aligned}[b]
+    \overline{\mathcal{X}}\ket{j}_L
+    = (\mathcal{Z}_1^\dagger \mathcal{Z}_4^\dagger \mathcal{Z}_7^\dagger)
+    \qty(\ket{\tilde{j}}_l \ket{\tilde{j}}_l \ket{\tilde{j}}_l)
+    = \ket{\widetilde{j+1}}_l \ket{\widetilde{j+1}}_l \ket{\widetilde{j+1}}_l
+    = \ket{j+1}_L
+\end{aligned}\end{equation}
+となる。
+したがって、$\overline{\mathcal{X}}$ は論理状態のラベルを1つずらす演算子となっている。
+
+また、これらの演算子はスタビライザー演算子と可換である。
+例えば
+\begin{equation}\begin{aligned}[b]
+    (\mathcal{Z}_1\mathcal{Z}_2^\dagger)(\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3)
+    = (\mathcal{Z}_1\mathcal{X}_1)(\mathcal{Z}_2^\dagger\mathcal{X}_2)\mathcal{X}_3
+    = (\omega\mathcal{X}_1\mathcal{Z}_1)(\omega^{-1}\mathcal{X}_2\mathcal{Z}_2^\dagger)\mathcal{X}_3
+    = (\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3)(\mathcal{Z}_1\mathcal{Z}_2^\dagger)
+\end{aligned}\end{equation}
+であり、位相因子が打ち消し合うとわかる。
+他のスタビライザーに対しても同様に可換性が成り立つ。
+一方で、$\overline{\mathcal{X}}$ や $\overline{\mathcal{Z}}$ はスタビライザー群の元ではない。
+実際、$\overline{\mathcal{Z}}=\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3$ は1つのブロックのみに作用する3体演算子であるが、
+$\mathcal{X}$ 型のスタビライザー生成元は2つの隣接するブロックにまたがる6体演算子であるため、
+それらの積からこの形を作ることはできない。
+また、$\overline{\mathcal{X}}=\mathcal{Z}_1^\dagger \mathcal{Z}_4^\dagger \mathcal{Z}_7^\dagger$ は
+各ブロックから1サイトずつを選んだ形で作用するが、
+$\mathcal{Z}$ 型のスタビライザー生成元の積から得られるのは各ブロック内部での差分を表す演算子のみであり、
+やはりこの形は得られない。
+さらに、これら2つの演算子は
+\begin{equation}\begin{aligned}[b]
+    \overline{\mathcal{Z}}\overline{\mathcal{X}}
+    &= (\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3)
+    (\mathcal{Z}_1^\dagger \mathcal{Z}_4^\dagger \mathcal{Z}_7^\dagger)\\
+    &= \omega
+    (\mathcal{Z}_1^\dagger \mathcal{Z}_4^\dagger \mathcal{Z}_7^\dagger)
+    (\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3)
+    = \omega\,\overline{\mathcal{X}}\overline{\mathcal{Z}}
+\end{aligned}\end{equation}
+を満たす。
+したがって、$\overline{\mathcal{X}}$ と $\overline{\mathcal{Z}}$ は論理 qudit 上の一般化パウリ演算子として期待される交換関係を持っている。
+これらは符号空間を保ちながらその内部で非自明に作用する論理演算子の具体例となっている。
+
+ここで、一般に論理演算子が満たすべき条件を整理しておこう。
+一般に、論理演算子の候補を一般化パウリ群の元 $P$ として考える。
+論理演算子は符号空間を保つ必要があるので、任意の $\ket{\psi}\in\mathcal{C}$ に対して
+\begin{equation}
+    P\ket{\psi}\in\mathcal{C}
+\end{equation}
+を満たさなければならない。
+ここで $\ket{\psi}\in\mathcal{C}$ は全てのスタビライザー演算子 $S\in\mathcal{S}$ に対して
+\begin{equation}
+    S\ket{\psi}=\ket{\psi}
+\end{equation}
+を満たしていたから、$P\ket{\psi}$ も符号空間に属するためには
+\begin{equation}
+    S(P\ket{\psi})=P\ket{\psi}\qquad (\forall S\in\mathcal{S})
+\end{equation}
+が成り立たなければならない。
+これは
+\begin{equation}
+    P^{-1}SP\ket{\psi}=\ket{\psi}\qquad (\forall S\in\mathcal{S})
+\end{equation}
+と書き換えられる。
+したがって、$P$ が符号空間を保つためには、任意の $S\in\mathcal{S}$ に対して
+$P^{-1}SP$ も再び $\mathcal{S}$ に属していなければならない。
+一方で、スタビライザー群の元そのものは符号空間上で恒等的に作用するため、
+論理状態を区別することはできない。
+したがって、求めるべき論理演算子とは、
+符号空間を保ちながらも、
+スタビライザー群の元としては自明でないような演算子である。
+このような論理演算子全体を系統的に特徴づけるために、正規化群を導入する。
+
+この条件を満たす一般化パウリ演算子全体は群をなし、
+スタビライザー群 $\mathcal{S}$ の正規化群と呼ばれる。
+\begin{NoteBox}[title={正規化群}]{}
+    スタビライザー群 $\mathcal{S}\subset\mathcal{P}_p^n$ の正規化群とは、
+    \begin{equation}
+        N(\mathcal{S})
+        :=
+        \qty{
+            P\in\mathcal{P}_p^n
+            \mid
+            P^{-1}SP\in\mathcal{S},\ \forall S\in\mathcal{S}}
+    \end{equation}
+    で定まる部分群である。
+\end{NoteBox}
+この集合が実際に群となることは、一般化パウリ群の部分集合として比較的容易に確かめられる。
+実際、単位演算子 $I$ は自明に $N(\mathcal{S})$ に属する。
+また、$P,Q\in N(\mathcal{S})$ ならば、任意の $S\in\mathcal{S}$ に対して
+\begin{equation}
+    (PQ)^{-1}S(PQ)=Q^{-1}(P^{-1}SP)Q\in\mathcal{S}
+\end{equation}
+であるから、積 $PQ$ も再び $N(\mathcal{S})$ に属する。
+さらに、$P\in N(\mathcal{S})$ ならば $P^{-1}SP\in\mathcal{S}$ であることから
+\begin{equation}
+    P(P^{-1}SP)P^{-1}=S\in\mathcal{S}
+\end{equation}
+が成り立ち、逆元 $P^{-1}$ についても
+\begin{equation}
+    P S P^{-1}\in\mathcal{S}
+\end{equation}
+が従う。
+したがって、$N(\mathcal{S})$ は一般化パウリ群 $\mathcal{P}_p^n$ の部分群である。
+
+上で見たように、論理演算子はスタビライザー群と可換でなければならない。
+実際、一般化パウリ群の元どうしは交換したとき位相因子 $\omega^k$ を生じるだけであるため、
+$P$ が全ての $S\in\mathcal{S}$ と可換ならば
+\begin{equation}
+    P^{-1}SP=S
+\end{equation}
+となり、$P$ は正規化群に属する。
+したがって、論理演算子は正規化群の元として理解することができる。
+
+しかし、正規化群の元のうちスタビライザー群そのものに属するものは、
+符号空間上で恒等的に作用するので論理演算子としては自明である。
+そこで、符号空間上で非自明に作用する論理演算子は、
+正規化群をスタビライザー群で割った剰余類
+\begin{equation}
+    N(\mathcal{S})/\mathcal{S}
+\end{equation}
+によって特徴づけられる。
+すなわち、2つの正規化群の元 $P,Q\in N(\mathcal{S})$ が
+\begin{equation}
+    P=QS,\qquad S\in\mathcal{S}
+\end{equation}
+の形で異なるだけならば、符号空間上では同じ論理演算子を表しているとみなす。
+実際、
+\begin{equation}
+    P\ket{\psi}=QS\ket{\psi}=Q\ket{\psi}\qquad (\ket{\psi}\in\mathcal{C})
+\end{equation}
+であるから、両者は符号空間上で区別できない。
+
+例えば、qudit 版 Shor符号では
+\begin{equation}
+    \overline{\mathcal{X}}
+    =\mathcal{Z}_1^\dagger \mathcal{Z}_4^\dagger \mathcal{Z}_7^\dagger
+\end{equation}
+を論理 $\mathcal{X}$ の1つの表現としてとることができた。
+ここでブロック内の $\mathcal{Z}$ 型スタビライザー
+\begin{equation}
+    \mathcal{Z}_1\mathcal{Z}_2^\dagger,\qquad
+    \mathcal{Z}_4\mathcal{Z}_5^\dagger,\qquad
+    \mathcal{Z}_7\mathcal{Z}_8^\dagger
+\end{equation}
+を掛けると、
+\begin{equation}\begin{aligned}[b]
+    &(\mathcal{Z}_1^\dagger \mathcal{Z}_4^\dagger \mathcal{Z}_7^\dagger)
+    (\mathcal{Z}_1\mathcal{Z}_2^\dagger)
+    (\mathcal{Z}_4\mathcal{Z}_5^\dagger)
+    (\mathcal{Z}_7\mathcal{Z}_8^\dagger)\\
+    &= \mathcal{Z}_2^\dagger \mathcal{Z}_5^\dagger \mathcal{Z}_8^\dagger
+\end{aligned}\end{equation}
+となる。
+しかし、これらはスタビライザーを掛けただけの違いであるから、符号空間上では同じ論理演算子を表している。
+このように、$N(\mathcal{S})/\mathcal{S}$ ではスタビライザー倍だけ異なる演算子を同一視するのであった。
+
+また、先ほど導入した qudit 版 Shor符号の $\overline{\mathcal{X}},\overline{\mathcal{Z}}$ は、
+スタビライザー群と可換であり、しかもスタビライザー群そのものには属さない元であった。
+したがって、これらは正規化群 $N(\mathcal{S})$ の元であり、
+その剰余類 $N(\mathcal{S})/\mathcal{S}$ の中の非自明な元として
+論理 qudit 上の一般化パウリ演算子を与えていると解釈できる。
+
+このように、スタビライザー群は符号空間を定め、正規化群の剰余類 $N(\mathcal{S})/\mathcal{S}$ はその中での非自明な論理演算子を与える。
+さらに、その中から一般化パウリの交換関係を満たす論理 $\overline{\mathcal{X}},\overline{\mathcal{Z}}$ を選ぶことで、
+符号空間の中で論理状態を区別し、それらの間の遷移を表すことができる。
+
+% \section{射影演算子とハミルトニアン形式}
+% ここまでで、スタビライザー群から符号空間とその上の論理演算子を記述できることを見た。
+% 次には、この符号空間を明示的に取り出す方法と、
+% それを物理的なハミルトニアンの基底状態空間としてみる方法を考える。
+% 特に $\mathbb{Z}_N$ 系では、射影演算子を用いた形式と
+% エルミート共役を用いた $\text{h.c.}$ 形式の両方が自然に現れ、
+% 両者は同じ基底状態空間を持ちながらも励起スペクトルが異なる。
+
+% まず、1つのスタビライザー演算子 $S$ に対して、
+% \begin{equation}
+%     \Pi_S := \frac{1}{N}\sum_{m=0}^{N-1} S^m
+% \end{equation}
+% を考える。
+% ここで $S$ の固有状態 $\ket{\psi}$ が
+% \begin{equation}
+%     S\ket{\psi} = \omega^k \ket{\psi},\qquad \omega=e^{2\pi i/N}
+% \end{equation}
+% を満たしているとする。
+% このとき
+% \begin{equation}\begin{aligned}[b]
+%     \Pi_S\ket{\psi}
+%     &= \frac{1}{N}\sum_{m=0}^{N-1} S^m\ket{\psi}
+%     = \frac{1}{N}\sum_{m=0}^{N-1} \omega^{km}\ket{\psi}
+% \end{aligned}\end{equation}
+% となる。
+% 特に $k=0$、すなわち $S\ket{\psi}=\ket{\psi}$ のときには
+% \begin{equation}
+%     \Pi_S\ket{\psi}=\ket{\psi}
+% \end{equation}
+% である。
+% 一方、$k\neq 0$ のときには等比級数の和より
+% \begin{equation}
+%     \sum_{m=0}^{N-1}\omega^{km}=0
+% \end{equation}
+% であるから、
+% \begin{equation}
+%     \Pi_S\ket{\psi}=0
+% \end{equation}
+% となる。
+% したがって、$\Pi_S$ はスタビライザー $S$ の $+1$ 固有空間への射影演算子となっている。
+
+% スタビライザー生成元 $S_1,\dots,S_r$ が互いに可換であるならば、
+% それぞれの射影演算子も可換である。
+% したがって、
+% \begin{equation}
+%     \Pi_{\mathcal{C}} := \Pi_{S_1}\Pi_{S_2}\cdots \Pi_{S_r}
+% \end{equation}
+% を考えることができる。
+% この演算子は各 $S_i$ の $+1$ 固有空間への共通射影であるから、
+% ちょうど符号空間 $\mathcal{C}$ への射影演算子となる。
+% このように、スタビライザー形式では符号空間を
+% 「全てのスタビライザー条件を満たす状態の集合」とみるだけでなく、
+% 射影演算子を用いて明示的に構成することもできる。
+
+% この射影演算子を用いると、符号空間を基底状態空間に持つハミルトニアンを自然に定義できる。
+% 最も直接的なものは
+% \begin{equation}
+%     H_{\mathrm{proj}} := -\sum_{i=1}^r \Pi_{S_i}
+% \end{equation}
+% である。
+% 各 $\Pi_{S_i}$ は固有値 $0$ または $1$ を持つ射影演算子であるから、
+% このハミルトニアンのエネルギーが最小になるのは全ての $i$ に対して
+% \begin{equation}
+%     \Pi_{S_i}\ket{\psi}=\ket{\psi}
+% \end{equation}
+% が成り立つとき、すなわち全てのスタビライザー条件
+% \begin{equation}
+%     S_i\ket{\psi}=\ket{\psi}
+% \end{equation}
+% が満たされるときである。
+% したがって、$H_{\mathrm{proj}}$ の基底状態空間は符号空間 $\mathcal{C}$ に一致する。
+
+% 一方で、$\mathbb{Z}_N$ 系ではスタビライザー演算子 $S_i$ は一般にエルミートではないため、
+% 物理的なハミルトニアンとしては
+% \begin{equation}
+%     H_{\mathrm{h.c.}} := -\sum_{i=1}^r (S_i+S_i^\dagger)
+% \end{equation}
+% のような $h.c.$ 形式も自然である。
+% $S_i$ の固有値が $\omega^k$ である状態に対しては
+% \begin{equation}
+%     (S_i+S_i^\dagger)\ket{\psi}
+%     = \qty(\omega^k+\omega^{-k})\ket{\psi}
+%     = 2\cos\frac{2\pi k}{N}\ket{\psi}
+% \end{equation}
+% となる。
+% したがって、この項のエネルギーが最小になるのは
+% \begin{equation}
+%     \cos\frac{2\pi k}{N}
+% \end{equation}
+% が最大となる $k=0$、すなわち $S_i=1$ のときである。
+% よって $H_{\mathrm{h.c.}}$ も、$H_{\mathrm{proj}}$ と同じく符号空間 $\mathcal{C}$ を基底状態空間に持つ。
+
+% ただし、これら2つのハミルトニアンは同じ基底状態空間を持っていても、
+% 励起スペクトルは異なる。
+% 射影形式では、各項の励起エネルギーは
+% \begin{equation}
+%     \Pi_{S_i}=1 \to 0
+% \end{equation}
+% という飛び方をするため、$k\neq 0$ の励起は一様に同じだけのエネルギーを持つ。
+% それに対して $h.c.$ 形式では、励起エネルギーは
+% \begin{equation}
+%     -2\cos\frac{2\pi k}{N}
+% \end{equation}
+% のように $k$ に依存して連続的に変化する。
+% 特に $N\to\infty$ 極限では
+% \begin{equation}
+%     1-\cos\frac{2\pi k}{N}\sim \frac{1}{2}\qty(\frac{2\pi k}{N})^2
+% \end{equation}
+% となるため、$h.c.$ 形式では励起スペクトルがギャップレスになる。
+% 一方、射影形式では $N\to\infty$ としても各励起は有限のエネルギー差を保ち、
+% 励起スペクトルはギャップドなままである。
+% したがって、射影形式と $h.c.$ 形式は同じ符号空間を記述していても、
+% 励起の物理という点では異なる模型を与えている。
+
+% このように、射影形式は符号空間を厳密に取り出すのに適しており、
+% $h.c.$ 形式は通常の格子ハミルトニアンとして扱いやすい。
+% 特に後に扱う $\mathbb{Z}_N$ toric code では、
+% この $h.c.$ 形式が物理的な見通しを与えるうえで重要となる。
+% また、ハミルトニアンとして実現を考えるならば、各項が局所相互作用で書けることが重要であり、
+% この観点は局所スタビライザーハミルトニアンや量子メモリに求められる条件へとつながっていく。
 
 
 \end{document}
