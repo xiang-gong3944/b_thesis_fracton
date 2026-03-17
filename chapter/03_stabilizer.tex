@@ -98,7 +98,7 @@ $\mathbb{F}_p$におけるHadamardテストでは、
         \mathcal{P}_p^n=
         \qty{
             \omega^k \mathcal{X}^{\mathbf{a}}\mathcal{Z}^{\mathbf{b}}
-            \mid k\in \mathbb{Z}_p,  \mathbf{a},\mathbf{b}\in \mathbb{F}_p^n }
+            \mid k\in  Z_p,  \mathbf{a},\mathbf{b}\in \mathbb{F}_p^n }
     \end{aligned}\end{equation}
     と書け、積は
     \begin{equation}\begin{aligned}[b]
@@ -151,7 +151,7 @@ $\mathbb{F}_p$におけるHadamardテストでは、
     \end{itemize}
 \end{NoteBox}
 このスタビライザー群の定義から、具体的にどのような演算子がスタビライザー群の元になりうるかを考えてみよう。
-スタビライザー群の元は一般化パウリ群の元であるから、ある $k\in\mathbb{Z}_p$ と $\mathbf{a},\mathbf{b}\in\mathbb{F}_p^n$ に対して
+スタビライザー群の元は一般化パウリ群の元であるから、ある $k\in Z_p$ と $\mathbf{a},\mathbf{b}\in\mathbb{F}_p^n$ に対して
 \begin{equation}
     S=\omega^k \mathcal{X}^{\mathbf{a}}\mathcal{Z}^{\mathbf{b}}
 \end{equation}
@@ -532,126 +532,115 @@ $P$ が全ての $S\in\mathcal{S}$ と可換ならば
 さらに、その中から一般化パウリの交換関係を満たす論理 $\overline{\mathcal{X}},\overline{\mathcal{Z}}$ を選ぶことで、
 符号空間の中で論理状態を区別し、それらの間の遷移を表すことができる。
 
-% \section{射影演算子とハミルトニアン形式}
-% ここまでで、スタビライザー群から符号空間とその上の論理演算子を記述できることを見た。
-% 次には、この符号空間を明示的に取り出す方法と、
-% それを物理的なハミルトニアンの基底状態空間としてみる方法を考える。
-% 特に $\mathbb{Z}_N$ 系では、射影演算子を用いた形式と
-% エルミート共役を用いた $\text{h.c.}$ 形式の両方が自然に現れ、
-% 両者は同じ基底状態空間を持ちながらも励起スペクトルが異なる。
+\section{射影演算子とハミルトニアン形式}
+ここまでで、スタビライザー群を用いて符号空間という「条件を満たす状態の集合」を代数的に定義できることを見た。
+量子回路の立場では、補助量子系を用いてスタビライザー演算子を測定し、
+その結果にもとづいて訂正操作やフィードバックを行うことで、
+状態を符号空間へと保つという描像をとる。
 
-% まず、1つのスタビライザー演算子 $S$ に対して、
-% \begin{equation}
-%     \Pi_S := \frac{1}{N}\sum_{m=0}^{N-1} S^m
-% \end{equation}
-% を考える。
-% ここで $S$ の固有状態 $\ket{\psi}$ が
-% \begin{equation}
-%     S\ket{\psi} = \omega^k \ket{\psi},\qquad \omega=e^{2\pi i/N}
-% \end{equation}
-% を満たしているとする。
-% このとき
-% \begin{equation}\begin{aligned}[b]
-%     \Pi_S\ket{\psi}
-%     &= \frac{1}{N}\sum_{m=0}^{N-1} S^m\ket{\psi}
-%     = \frac{1}{N}\sum_{m=0}^{N-1} \omega^{km}\ket{\psi}
-% \end{aligned}\end{equation}
-% となる。
-% 特に $k=0$、すなわち $S\ket{\psi}=\ket{\psi}$ のときには
-% \begin{equation}
-%     \Pi_S\ket{\psi}=\ket{\psi}
-% \end{equation}
-% である。
-% 一方、$k\neq 0$ のときには等比級数の和より
-% \begin{equation}
-%     \sum_{m=0}^{N-1}\omega^{km}=0
-% \end{equation}
-% であるから、
-% \begin{equation}
-%     \Pi_S\ket{\psi}=0
-% \end{equation}
-% となる。
-% したがって、$\Pi_S$ はスタビライザー $S$ の $+1$ 固有空間への射影演算子となっている。
+これに対して物理学の立場では、
+この符号空間をある物理的な多体系の基底状態空間として実現するという別の見方が可能になる。
+すなわち、外部から逐一測定と訂正を行うアルゴリズム的な描像から離れ、
+同じ符号空間を基底状態空間として持つハミルトニアンを構成したいのである。
+このような見方をとると、量子誤り訂正符号は「測定と復号のアルゴリズム」としてだけでなく、
+多体系の基底状態と励起を持つ物理模型としても理解できる。
+特に、スタビライザー条件の破れはハミルトニアンの励起状態として記述されるため、
+その励起のエネルギーや局所性を調べることができる。
 
-% スタビライザー生成元 $S_1,\dots,S_r$ が互いに可換であるならば、
-% それぞれの射影演算子も可換である。
-% したがって、
-% \begin{equation}
-%     \Pi_{\mathcal{C}} := \Pi_{S_1}\Pi_{S_2}\cdots \Pi_{S_r}
-% \end{equation}
-% を考えることができる。
-% この演算子は各 $S_i$ の $+1$ 固有空間への共通射影であるから、
-% ちょうど符号空間 $\mathcal{C}$ への射影演算子となる。
-% このように、スタビライザー形式では符号空間を
-% 「全てのスタビライザー条件を満たす状態の集合」とみるだけでなく、
-% 射影演算子を用いて明示的に構成することもできる。
+また、後の章で見るように、このようなハミルトニアンの励起状態を調べることは、エニオンなどの豊かな物理的性質を理解することに直結する。
+では、スタビライザー条件 $S_i \ket{\psi} = \ket{\psi}$ を満たす状態のエネルギーを下げるハミルトニアンを、
+どのように構成すればよいだろうか。
+特に $Z_N$ 系においては、ハミルトニアンの各項の構成方法として
+「射影演算子を用いる形式」と「エルミート共役（$\mathrm{h.c.}$）を用いる形式」の2つが自然に現れる。
+これらは同じ符号空間を基底状態としながらも、
+励起スペクトルに異なる物理的性質をもたらす。
 
-% この射影演算子を用いると、符号空間を基底状態空間に持つハミルトニアンを自然に定義できる。
-% 最も直接的なものは
-% \begin{equation}
-%     H_{\mathrm{proj}} := -\sum_{i=1}^r \Pi_{S_i}
-% \end{equation}
-% である。
-% 各 $\Pi_{S_i}$ は固有値 $0$ または $1$ を持つ射影演算子であるから、
-% このハミルトニアンのエネルギーが最小になるのは全ての $i$ に対して
-% \begin{equation}
-%     \Pi_{S_i}\ket{\psi}=\ket{\psi}
-% \end{equation}
-% が成り立つとき、すなわち全てのスタビライザー条件
-% \begin{equation}
-%     S_i\ket{\psi}=\ket{\psi}
-% \end{equation}
-% が満たされるときである。
-% したがって、$H_{\mathrm{proj}}$ の基底状態空間は符号空間 $\mathcal{C}$ に一致する。
+スタビライザー符号では、全てのスタビライザー条件を満たす状態が符号空間をなし、
+それらをハミルトニアンの基底状態とみなしたい。
+一方、いずれかのスタビライザー条件を破る状態は励起状態に対応してほしい。
+したがって、ハミルトニアンの各項は、ある状態が各スタビライザーの $+1$ 固有空間に属しているかどうかを判定するような演算子であるのが自然である。
+まず、1つのスタビライザー演算子に対して、その $+1$ 固有空間への射影演算子を構成することを考えよう。
+スタビライザー演算子 $S$ に対して、各べき乗を足し合わせた
+\begin{equation}
+    \Pi_S := \frac{1}{p}\sum_{m=0}^{p-1} S^m
+\end{equation}
+を定義する。
+これは離散フーリエ変換によって固有値 $\omega^k$ のうち $k=0$ の成分だけを取り出す操作に対応している。
+実際、$S$ の固有状態 $\ket{\psi}$ が
+\begin{equation}
+    S\ket{\psi} = \omega^k \ket{\psi},\qquad \omega=e^{2\pi i/p}
+\end{equation}
+を満たしているとする。
+このとき
+\begin{equation}\begin{aligned}[b]
+    \Pi_S\ket{\psi}
+    &= \frac{1}{p}\sum_{m=0}^{p-1}S^m\ket{\psi}
+    = \frac{1}{p}\sum_{m=0}^{p-1}\omega^{km}\ket{\psi}
+\end{aligned}\end{equation}
+となる。
+特に $k=0$、すなわち $S\ket{\psi}=\ket{\psi}$ のときには
+\begin{equation}
+    \Pi_S\ket{\psi}=\frac{1}{p}\sum_{m=0}^{p-1}\ket{\psi}=\ket{\psi}
+\end{equation}
+である。
+一方、$k\neq 0$ のときには、
+\begin{equation}
+    \Pi_S\ket{\psi}=\frac{1}{p}\sum_{m=0}^{p-1}\omega^{km}\ket{\psi}=\frac{1}{p}\frac{1-\omega^{kp}}{1-\omega^k}\ket{\psi}=0
+\end{equation}
+となる。
+したがって、一般の状態 $\ket{\psi}$ を $S$ の固有空間分解
+\begin{equation}
+    \ket{\psi}=\sum_{k=0}^{p-1}\ket{\psi^{(k)}},\qquad
+    S\ket{\psi^{(k)}}=\omega^k\ket{\psi^{(k)}}
+\end{equation}
+によって表すと、
+\begin{equation}
+    \Pi_S\ket{\psi}=\ket{\psi^{(0)}}
+\end{equation}
+となる。
+つまり、$\Pi_S$ は $S$ の $+1$ 固有空間の成分だけを取り出し、
+それ以外の成分を消す演算子である。
+したがって、$\Pi_S$ は $S$ の $+1$ 固有空間への射影演算子となっている。
 
-% 一方で、$\mathbb{Z}_N$ 系ではスタビライザー演算子 $S_i$ は一般にエルミートではないため、
-% 物理的なハミルトニアンとしては
-% \begin{equation}
-%     H_{\mathrm{h.c.}} := -\sum_{i=1}^r (S_i+S_i^\dagger)
-% \end{equation}
-% のような $h.c.$ 形式も自然である。
-% $S_i$ の固有値が $\omega^k$ である状態に対しては
-% \begin{equation}
-%     (S_i+S_i^\dagger)\ket{\psi}
-%     = \qty(\omega^k+\omega^{-k})\ket{\psi}
-%     = 2\cos\frac{2\pi k}{N}\ket{\psi}
-% \end{equation}
-% となる。
-% したがって、この項のエネルギーが最小になるのは
-% \begin{equation}
-%     \cos\frac{2\pi k}{N}
-% \end{equation}
-% が最大となる $k=0$、すなわち $S_i=1$ のときである。
-% よって $H_{\mathrm{h.c.}}$ も、$H_{\mathrm{proj}}$ と同じく符号空間 $\mathcal{C}$ を基底状態空間に持つ。
+この射影演算子を用いると、符号空間を基底状態空間に持つハミルトニアンを定義できる。
+最も直接的なものは
+\begin{equation}
+    H_{\mathrm{proj}}:=-\sum_{i=1}^r \Pi_{S_i}
+\end{equation}
+である。
+ここで $S_1,\dots,S_r$ はスタビライザー群の独立な生成元である。
+各項 $\Pi_{S_i}$ は固有値 $0$ または $1$ を持つので、
+このハミルトニアンのエネルギーが最小になるのは全ての $i$ に対して
+\begin{equation}
+    \Pi_{S_i}\ket{\psi}=\ket{\psi}
+\end{equation}
+が成り立つとき、すなわち
+\begin{equation}
+    S_i\ket{\psi}=\ket{\psi}
+\end{equation}
+が全て満たされるときである。
+したがって、$H_{\mathrm{proj}}$ の基底状態空間は符号空間 $\mathcal{C}$ に一致する。
 
-% ただし、これら2つのハミルトニアンは同じ基底状態空間を持っていても、
-% 励起スペクトルは異なる。
-% 射影形式では、各項の励起エネルギーは
-% \begin{equation}
-%     \Pi_{S_i}=1 \to 0
-% \end{equation}
-% という飛び方をするため、$k\neq 0$ の励起は一様に同じだけのエネルギーを持つ。
-% それに対して $h.c.$ 形式では、励起エネルギーは
-% \begin{equation}
-%     -2\cos\frac{2\pi k}{N}
-% \end{equation}
-% のように $k$ に依存して連続的に変化する。
-% 特に $N\to\infty$ 極限では
-% \begin{equation}
-%     1-\cos\frac{2\pi k}{N}\sim \frac{1}{2}\qty(\frac{2\pi k}{N})^2
-% \end{equation}
-% となるため、$h.c.$ 形式では励起スペクトルがギャップレスになる。
-% 一方、射影形式では $N\to\infty$ としても各励起は有限のエネルギー差を保ち、
-% 励起スペクトルはギャップドなままである。
-% したがって、射影形式と $h.c.$ 形式は同じ符号空間を記述していても、
-% 励起の物理という点では異なる模型を与えている。
-
-% このように、射影形式は符号空間を厳密に取り出すのに適しており、
-% $h.c.$ 形式は通常の格子ハミルトニアンとして扱いやすい。
-% 特に後に扱う $\mathbb{Z}_N$ toric code では、
-% この $h.c.$ 形式が物理的な見通しを与えるうえで重要となる。
-% また、ハミルトニアンとして実現を考えるならば、各項が局所相互作用で書けることが重要であり、
-% この観点は局所スタビライザーハミルトニアンや量子メモリに求められる条件へとつながっていく。
+ここで注目すべきことに、$H_{\mathrm{proj}}$ は一般には多体相互作用を含むにもかかわらず、
+その全ての項が互いに可換である。
+例えば、Shor符号においてはスタビライザー演算子は
+\begin{equation}\begin{aligned}[b]
+    S_{s1}&=\mathcal{Z}_1\mathcal{Z}_2^\dagger&
+    S_{p1}&=\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3 \mathcal{X}_4^\dagger\mathcal{X}_5^\dagger\mathcal{X}_6^\dagger
+\end{aligned}\end{equation}
+であり、
+これによる射影演算子は
+\begin{equation}\begin{aligned}[b]
+    \Pi_{s1} &= \frac{1}{p}\sum_{m=0}^{p-1}(\mathcal{Z}_1\mathcal{Z}_2^\dagger)^m, &
+    \Pi_{p1} &= \frac{1}{p}\sum_{m=0}^{p-1}(\mathcal{X}_1\mathcal{X}_2\mathcal{X}_3 \mathcal{X}_4^\dagger\mathcal{X}_5^\dagger\mathcal{X}_6^\dagger)^m
+\end{aligned}\end{equation}
+といった形をしている。
+これを見てわかるように、$\Pi_{s1}$ は2 qudit にのみ作用し、
+$\Pi_{p1}$ は6 qudit にのみ作用する項である。
+通常、このような多体相互作用を含むハミルトニアンの解析は容易ではない。
+しかし、ここでのハミルトニアンはスタビライザー条件から基底状態が明示的にわかっており、
+各局所項を同時に対角化できる特別に扱いやすいクラスに属している。
+この点は、後に扱うトポロジカル秩序や励起の構造を理解するうえでも重要となる。
 
 
 \end{document}
