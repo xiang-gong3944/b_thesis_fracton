@@ -93,31 +93,10 @@ $\gamma_1 + \gamma_2$ と表す。
 
 \begin{figure}[tb]
     \centering
-    \fbox{
-    \begin{minipage}[c][5.5cm][c]{0.82\textwidth}
-        \centering
-        \textbf{[図プレースホルダー]}
-
-        \medskip
-        Toric code の格子図をここに挿入する。
-
-        \medskip
-        入れる内容:
-
-        \medskip
-        1. 正方格子をトーラス上に置いた模式図
-
-        2. 各辺に qubit が置かれていることの表示
-
-        3. ある頂点に対応する 頂点演算子 \(A_v\)
-
-        4. ある面に対応する 面演算子 \(B_p\)
-
-        5. 隣接する \(A_v\) と \(B_p\) が 2 本の辺を共有すること
-    \end{minipage}
-    }
-    \caption{Toric code では量子ビットを各辺に配置し、頂点ごとに 頂点演算子 \(A_v\)、面ごとに 面演算子 \(B_p\) を定義する。隣接する \(A_v\) と \(B_p\) は2本の辺を共有するため可換である。}
-    \label{fig:chap4_toric_lattice_star_plaquette}
+    \includegraphics[width=0.4\columnwidth]{figures/chap4_toric_code_01.png}
+    \caption{Toric code では量子ビットを各辺に配置し、頂点ごとに 頂点演算子 \(A_v\)、面ごとに 面演算子 \(B_p\) を定義する。
+    隣接するような \(A_{v2}\) と \(B_{p2}\) の演算子は2本の辺を共有するため可換である。}
+    \label{fig:chap4_toric_lattice_star}
 \end{figure}
 
 頂点に付随する \(A_v\) を頂点演算子、面に付随する \(B_p\) を面演算子と呼ぶ。
@@ -247,6 +226,13 @@ Toric code の特徴は、これらの問いが格子上の図形を用いて
 したがって、1つの位相エラー \(Z(e)\) は2つの頂点でのスタビライザー条件を破り、
 その2点にシンドロームを生じさせる。
 
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/chap4_toric_code_02.png}
+    \caption{位相エラーは格子上の \(Z\)- 鎖として表され、スタビライザーが\(A_v=-1\)となるシンドロームは鎖の端点に現れる。}
+    \label{fig:chap4_toric_error_chain}
+\end{figure}
+
 次に、隣接する2本の辺 \(e_1=(v_1,v_3),e_2=(v_2,v_3)\) に位相エラーが入った状態
 \begin{equation}
     Z(e_1+e_2)\ket{\Omega}
@@ -295,27 +281,13 @@ Toric code の特徴は、これらの問いが格子上の図形を用いて
 
 \begin{figure}[tb]
     \centering
-    \fbox{
-    \begin{minipage}[c][5.2cm][c]{0.82\textwidth}
-        \centering
-        \textbf{[図プレースホルダー]}
-
-        \medskip
-        誤り鎖とシンドロームの図をここに挿入する。
-
-        \medskip
-        入れる内容:
-
-        \medskip
-        1. 単一の \(Z\) エラーが2つの頂点に defect を作る図
-
-        2. 隣接する \(Z\) エラーで中間の defect が消える図
-
-        3. 一般の \(Z\)- chain の端点が syndrome になる図
-    \end{minipage}
-    }
-    \caption{位相エラーは格子上の \(Z\)- 鎖として表され、そのシンドロームは鎖の端点に現れる。}
-    \label{fig:chap4_toric_error_chain_placeholder}
+    \includegraphics[width=0.8\textwidth]{figures/chap4_toric_code_03.png}
+    \caption{同じシンドロームを与えるZ-鎖の例。
+    ここでは辺にある量子ビットを省略して、頂点にあるスタビライザーが\(A_v=-1\)となるところのみ赤のひし形で示している。
+    また、辺上にある緑の線はZ-鎖を表している。
+    Z-鎖はスタビライザー\(B_p\)を加えることによって推移できる。
+    つまりシンドロームからは鎖の端点以外の違いは識別できない。}
+    \label{fig:chap4_toric_error_chain_equivalent}
 \end{figure}
 
 とくに、\(\gamma\) が閉じた鎖であるときには端点が存在しないため、
@@ -347,6 +319,16 @@ Toric code の特徴は、これらの問いが格子上の図形を用いて
 また 面演算子 \(B_p\) とも自明に可換である。
 よって、そのような \(Z\)- ループは符号空間を保ちながら、
 その内部で恒等的ではない作用をする演算子になっている。
+\begin{figure}[tb]
+    \centering
+    \includegraphics[width=0.54\textwidth]{figures/chap4_toric_code_04.png}
+    \caption{Z-鎖がループ状になり端点がなくなったときの例。
+    ここでは辺にある量子ビットを省略して辺上にある緑の線はZ-鎖を表している。
+    実際にこのようなZ-ループのもと、頂点にあるスタビライザーの値を計算すると\(A_v=+1\)となり、シンドロームは検出されないのがわかる。
+    左図は2つの四角の境界で表されるため、スタビライザー\(B_p\)の積で書けるのに対し、
+    右図は周期境界を跨いでいるため、スタビライザーの積では書けない。}
+    \label{fig:chap4_toric_error_loop}
+\end{figure}
 
 これは前章で導入した正規化群 \(N(S)\) の言葉で言えば、
 全てのスタビライザーと可換であるから \(N(S)\) に属するが、
