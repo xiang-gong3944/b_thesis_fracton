@@ -1,0 +1,7 @@
+interface:
+  display_name: "Japanese Physics Textbook Writer"
+  short_description: "Reader-calibrated Japanese physics and TeX prose"
+  default_prompt: "Use $japanese-physics-textbook-writer to draft, review, or revise this Japanese physics TeX passage for the intended reader while respecting the requested change scope and local document conventions."
+
+policy:
+  allow_implicit_invocation: true
